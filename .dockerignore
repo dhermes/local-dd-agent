@@ -1,0 +1,14 @@
+# Ignore everything
+**
+
+# Allow list of files
+!/docker/flask-entrypoint.sh
+!/requirements.txt
+!/src/python/app.py
+!/src/python/counter.py
+!/src/python/parse_datagram.py
+!/src/python/pretty_json.py
+!/src/python/udp_server.py
+!/src/python/uds_server.py
+!/src/supervisor/stop-supervisor.sh
+!/src/supervisor/supervisord.conf
