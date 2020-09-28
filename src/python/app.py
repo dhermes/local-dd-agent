@@ -1,3 +1,5 @@
+import json
+
 import flask
 import msgpack
 
@@ -9,6 +11,8 @@ REQUEST_COUNTER = counter.Counter()
 TRACE_COUNTER = counter.Counter()
 APP = flask.Flask(__name__)
 METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
+CONTENT_TYPE_MSGPACK = "application/msgpack"
+CONTENT_TYPE_JSON = "application/json"
 
 
 @APP.route("/", defaults={"path": ""}, methods=METHODS)
@@ -18,7 +22,15 @@ def catch_all(path):
 
     data = flask.request.get_data()
     try:
-        data_parsed = msgpack.loads(data)
+        if flask.request.content_type != CONTENT_TYPE_MSGPACK:
+            data_parsed = msgpack.loads(data)
+        elif flask.request.content_type != CONTENT_TYPE_JSON:
+            data_parsed = json.loads(data)
+        else:
+            raise ValueError(
+                "Unexpected content type", flask.request.content_type
+            )
+
         (traces,) = data_parsed  # Assert one entry
 
         for trace in traces:
