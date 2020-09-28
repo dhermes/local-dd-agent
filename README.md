@@ -6,7 +6,7 @@
 
 During local development, developers often just turn off `datadog`. We just
 trust that our application metrics and traces will work as expected when
-deployed to environments (e.g. Deployinator) where `dd-agent` is running.
+deployed to environments where `dd-agent` is running.
 
 This is especially challenging when things **go wrong**. For example, sometimes
 a task will exit before flushing all metrics out to `dd-agent` and debugging
