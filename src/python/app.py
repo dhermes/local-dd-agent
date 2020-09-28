@@ -20,16 +20,15 @@ CONTENT_TYPE_JSON = "application/json"
 def catch_all(path):
     request_count = REQUEST_COUNTER.increment()
 
+    content_type = flask.request.content_type
     data = flask.request.get_data()
     try:
-        if flask.request.content_type != CONTENT_TYPE_MSGPACK:
+        if content_type != CONTENT_TYPE_MSGPACK:
             data_parsed = msgpack.loads(data)
-        elif flask.request.content_type != CONTENT_TYPE_JSON:
+        elif content_type != CONTENT_TYPE_JSON:
             data_parsed = json.loads(data)
         else:
-            raise ValueError(
-                "Unexpected content type", flask.request.content_type
-            )
+            raise ValueError("Unexpected content type", content_type)
 
         (traces,) = data_parsed  # Assert one entry
 
