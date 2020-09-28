@@ -9,16 +9,6 @@ REQUEST_COUNTER = counter.Counter()
 TRACE_COUNTER = counter.Counter()
 APP = flask.Flask(__name__)
 METHODS = ("GET", "POST", "PUT", "PATCH", "DELETE")
-RESPONSE_HTML = """\
-<html>
-  <head>
-    <title>Hello</title>
-  </head>
-  <body>
-    <h1>Hello</h1>
-  </body>
-</html>
-"""
 
 
 @APP.route("/", defaults={"path": ""}, methods=METHODS)
@@ -42,9 +32,7 @@ def catch_all(path):
         prefix = f"{trace_count:03d}-{request_count:03d}-8126 | "
         print(f"{prefix}trace raw data = {data!r}")
 
-    response = flask.Response(RESPONSE_HTML)
-    response.headers["content-type"] = "application/html"
-    return response
+    return flask.jsonify({})
 
 
 if __name__ == "__main__":
