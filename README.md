@@ -61,7 +61,7 @@ READY
 ```
 
 and the UDS path can be overriden on the host (it will default to
-`${pwd}/var-run-datadog/dsd.socket` if not supplied):
+`$(pwd)/var-run-datadog/dsd.socket` if not supplied):
 
 ```
 $ make run DATADOG_ADDRESS="${HOME}/Desktop/dsd.socket"
