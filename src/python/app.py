@@ -23,9 +23,9 @@ def catch_all(path):
     content_type = flask.request.content_type
     data = flask.request.get_data()
     try:
-        if content_type != CONTENT_TYPE_MSGPACK:
+        if content_type == CONTENT_TYPE_MSGPACK:
             data_parsed = msgpack.loads(data)
-        elif content_type != CONTENT_TYPE_JSON:
+        elif content_type == CONTENT_TYPE_JSON:
             data_parsed = json.loads(data)
         else:
             raise ValueError("Unexpected content type", content_type)
