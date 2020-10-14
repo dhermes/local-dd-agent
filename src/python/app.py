@@ -15,6 +15,19 @@ CONTENT_TYPE_MSGPACK = "application/msgpack"
 CONTENT_TYPE_JSON = "application/json"
 
 
+def _flatten_traces(data_parsed):
+    # Flatten from the "outside"
+    if len(data_parsed) == 1:
+        return data_parsed[0]
+
+    # Flatten from the "inside"
+    if all(len(value) == 1 for value in data_parsed):
+        return [value[0] for value in data_parsed]
+
+    # Do nothing
+    return data_parsed
+
+
 @APP.route("/", defaults={"path": ""}, methods=METHODS)
 @APP.route("/<path:path>", methods=METHODS)
 def catch_all(path):
@@ -30,8 +43,7 @@ def catch_all(path):
         else:
             raise ValueError("Unexpected content type", content_type)
 
-        (traces,) = data_parsed  # Assert one entry
-
+        traces = _flatten_traces(data_parsed)
         for trace in traces:
             trace_count = TRACE_COUNTER.increment()
             prefix = f"{trace_count:03d}-{request_count:03d}-8126 | "
